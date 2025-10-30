@@ -10,9 +10,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid $color-text-primary;
     font-size: 1rem;
     color: #000;
+    border: 2px solid $color-text-primary;
     text-decoration: none;
     padding: 10px 16px;
     cursor: pointer;
@@ -21,25 +21,19 @@
     min-width: 100px;
     text-align: center;
 
-    &.register-button{
-      border-color: $color-text-primary;
-      background-color: $color-rosado;
-      color: $color-text-primary;
-
-      &:hover {
-        background-color: $color-rosado-hover;
-        color: $bg-hover;
-      }
-    }
-
-    &.login-button {
-      border-color: $color-text-primary;
+    &.plataforma-button {
       background-color: $color-celeste;
       color: $color-text-primary;
 
       &:hover {
         background-color: $color-celeste-hover;
-        color: $bg-hover;
+        transform: translateY(-4px) translateX(-2px);
+        box-shadow: 2px 5px 0 0 black;
+      }
+
+        &:active {
+        transform: translateY(2px) translateX(1px);
+        box-shadow: 0 0 0 0 black;
       }
     }
   }
