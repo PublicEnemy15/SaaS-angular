@@ -1,0 +1,152 @@
+@use '../../styles/variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.BrowseGenreListStrip {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.genre-browse-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #00000000;
+  color: #fff;
+  max-width: 1400px;
+  margin: 50px auto 0;
+}
+
+.main-layout-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+}
+
+.genre-browse-book-grid-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 524px;
+  flex-shrink: 0;
+}
+
+.info-panel {
+  flex: 1;
+  background-color: $bg-hover;
+  border: 2px solid $color-text-primary;
+  color: $color-text-primary;
+  padding: 4px 20px;
+  min-height: 200px;
+}
+
+.genre-browse-book-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: #fff;
+  background-color:$color-Unselected-Field-NoColorBtn;
+  text-decoration: none;
+  border: 2px solid $color-text-primary;
+  min-height: 120px;
+  width: 100%;
+  padding: 20px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: $bg-hover;
+    color: #000;
+  }
+
+  &:visited {
+    color: #fff;
+  }
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  color:$color-text-primary;
+}
+
+@media screen and (min-width: 640px) {
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .card-title {
+    margin-bottom: 8px;
+  }
+}
+
+.card-description {
+  display: none;
+  font-size: 14px;
+  color: $text-secondary;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+
+  @media screen and (min-width: 768px) {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .main-layout-wrapper {
+    flex-direction: column; 
+    align-items: center;
+  }
+
+  .genre-browse-book-grid-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+    min-width: unset;
+    gap: 10px;
+  }
+
+  .genre-browse-book-link {
+    flex: 1 1 0;
+    min-width: 0;
+    width: 100%;
+    max-width: calc(33.333% - 10px);
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    text-align: center;
+
+    .card-description {
+      display: none !important;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+
+  .info-panel {
+    width: 100%;
+    margin-top: 20px;
+    max-height: 560px;
+    overflow: auto;
+  }
+}

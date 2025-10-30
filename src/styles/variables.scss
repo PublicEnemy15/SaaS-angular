@@ -1,0 +1,19 @@
+@use "sass:color";
+
+$color-celeste: #73A7DD;
+$color-rosado: #E28EB8;
+$color-bg-primary: #EEEEEE;
+$bg-hover: #D8E2ED;
+$color-Unselected-Field-NoColorBtn:#F2F2F2;
+$color-text-primary: #000;
+$text-secondary: #666;
+
+$color-celeste-hover: color.adjust($color-celeste, $lightness: -10%);
+$color-rosado-hover: color.adjust($color-rosado, $lightness: -10%);
+
+$breakpoints: (
+  sm: 480px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px
+);

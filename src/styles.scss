@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+@use './styles/variables' as *;
+@use './styles/mixins' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Baloo 2';
+  margin: 0;
+  text-align: left;
+  margin-top: 70px;
+  background-color: $color-bg-primary;
+}
+
+html {
+  line-height: 1.4;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  background-color: transparent;
+}

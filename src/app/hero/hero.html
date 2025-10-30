@@ -1,0 +1,17 @@
+<section class="ArticleStrip" role="banner">
+  <div class="HeroStrip">
+    <div class="HeroStrip-posterWrapper">
+      <a [routerLink]="navigationUrl" class="HeroStrip-poster">
+        <picture>
+          <img
+            [attr.fetchpriority]="heroImage.fetchPriority"
+            [attr.loading]="heroImage.loading"
+            class="HeroStrip-image"
+            [src]="heroImage.src"
+            [alt]="heroImage.alt"
+          />
+        </picture>
+      </a>
+    </div>
+  </div>
+</section>

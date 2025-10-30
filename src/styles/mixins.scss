@@ -1,0 +1,38 @@
+@use "sass:map";
+@use './variables' as vars;
+
+// Flex utils
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Responsive helper
+@mixin responsive($size) {
+  @if map.has-key(vars.$breakpoints, $size) {
+    @media (min-width: map.get(vars.$breakpoints, $size)) {
+      @content;
+    }
+  }
+}
+// Enlaces
+@mixin link-style {
+  text-decoration: none;
+  color: vars.$color-text-primary;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+    color: vars.$color-celeste;
+  }
+}

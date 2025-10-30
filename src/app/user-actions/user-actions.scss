@@ -1,0 +1,46 @@
+@use '../../styles/variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid $color-text-primary;
+    font-size: 1rem;
+    color: #000;
+    text-decoration: none;
+    padding: 10px 16px;
+    cursor: pointer;
+    line-height: 1;
+    transition: all 0.2s ease-in-out;
+    min-width: 100px;
+    text-align: center;
+
+    &.register-button{
+      border-color: $color-text-primary;
+      background-color: $color-rosado;
+      color: $color-text-primary;
+
+      &:hover {
+        background-color: $color-rosado-hover;
+        color: $bg-hover;
+      }
+    }
+
+    &.login-button {
+      border-color: $color-text-primary;
+      background-color: $color-celeste;
+      color: $color-text-primary;
+
+      &:hover {
+        background-color: $color-celeste-hover;
+        color: $bg-hover;
+      }
+    }
+  }
+}
