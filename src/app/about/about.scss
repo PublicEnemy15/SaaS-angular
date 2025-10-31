@@ -1,0 +1,38 @@
+@use '../../styles/variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.about-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background-color: #00000000;
+  max-width: 1400px;
+}
+
+.about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.about h1{
+    letter-spacing: -0.03ch;
+    margin: 20px auto;
+    color: #000;
+}
+
+.about>* {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media screen and (min-width: 768px) {
+    .about>* {
+        max-width: 660px;
+    }
+
+    .about h1 {
+        font-size: 5rem;
+    }
+}
