@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 interface CardContent {
   id: number;
@@ -12,7 +13,7 @@ interface CardContent {
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule],
   templateUrl: './cards.html',
   styleUrls: ['./cards.scss'],
 })

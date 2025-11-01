@@ -1,0 +1,13 @@
+<div class="tier">
+  <div class="tier-card">
+    <h2>{{ planName }}</h2>
+    <p>{{ planType }}</p>
+
+    <form (submit)="onSubmit($event)">
+      <input type="text" placeholder="Nombre de la Empresa" required />
+      <input type="email" placeholder="Correo" required />
+      <input type="password" placeholder="Contraseña" required />
+      <button type="submit">Contratar</button>
+    </form>
+  </div>
+</div>
