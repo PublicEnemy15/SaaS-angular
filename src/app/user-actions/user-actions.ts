@@ -10,6 +10,6 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserActions {
-  @Input() url: string = '';
-  @Input() isLoggedIn = false;
+  @Input() url: string = '';      
+  @Input() isLoggedIn = false;    
 }

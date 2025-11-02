@@ -1,15 +1,11 @@
 <div class="user-actions">
+  
+  <a routerLink="/register" class="btn register-button">
+    Registrarse
+  </a>
 
-  @if (!isLoggedIn && url !== 'register' && url !== 'login') {
-    <a routerLink="/register" class="btn register-button">
-      Registrarse
-    </a>
-  }
-
-  @if (isLoggedIn) {
-    <a routerLink="/platform" class="btn plataforma-button">
-      Ir a plataforma
-    </a>
-  }
+  <a routerLink="/login" class="btn plataforma-button">
+    Ir a plataforma
+  </a>
 
 </div>
