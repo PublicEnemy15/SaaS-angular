@@ -73,6 +73,14 @@
   flex-grow: 1;
 }
 
+.card__more {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #000;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
 .card__form {
   display: flex;
   flex-direction: column;
@@ -94,6 +102,10 @@
   transition: transform 0.3s;
   width: 100%;
   align-self: center;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1.2;
 }
 
 .card__button::before {

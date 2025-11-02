@@ -1,37 +1,21 @@
 <div class="SpacerStrip" style="height: 10px;"></div>
-  <div class="card-container">
-    <div class="card-wrapper">
 
-      <div class="card">
-        <span class="card__title">Plan 1</span>
-        <p class="card__content">
-          Informacion del plan.
-        </p>
-        <form class="card__form">
-          <button class="card__button">Ver plan</button>
-        </form>
-      </div>
+<div class="card-container" role="list" aria-label="Planes disponibles">
+  <div class="card-wrapper">
 
-      <div class="card">
-        <span class="card__title">Plan 2</span>
-        <p class="card__content">
-          Informacion del plan.
-        </p>
-        <form class="card__form">
-          <button class="card__button">Ver plan</button>
-        </form>
-      </div>
+    <article *ngFor="let card of cards()" class="card" role="listitem" [attr.aria-labelledby]="'card-title-' + card.id" [class.selected]="selectedCard() === card.id">
+      <header class="card__header">
+        <span id="card-title-{{card.id}}" class="card__title">{{ card.title }}</span>
+      </header>
 
-      <div class="card">
-        <span class="card__title">Plan 3</span>
-        <p class="card__content">
-          Informacion del plan.
-        </p>
-        <form class="card__form">
-          <button class="card__button">Ver plan</button>
-        </form>
+      <p class="card__more">{{ card.content }}</p>
+
+      <div class="card__form">
+        <a class="card__button" [routerLink]="['/plan', card.id]" role="button" aria-label="Ver {{card.title}}">Ver plan</a>
       </div>
-    
+    </article>
+
   </div>
 </div>
+
 <div class="SpacerStrip" style="height: 70px;"></div>

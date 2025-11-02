@@ -10,10 +10,3 @@ $text-secondary: #666;
 
 $color-celeste-hover: color.adjust($color-celeste, $lightness: -10%);
 $color-rosado-hover: color.adjust($color-rosado, $lightness: -10%);
-
-$breakpoints: (
-  sm: 480px,
-  md: 768px,
-  lg: 1024px,
-  xl: 1280px
-);

@@ -1,0 +1,105 @@
+@use '../../styles/variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.form {
+  padding: 20px;
+  background: $bg-hover;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  border: 2px solid $color-text-primary;
+  box-shadow: 4px 4px $color-text-primary;
+}
+
+.form > p {
+  color: $color-text-primary;
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form > p > span {
+  color: $text-secondary;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.form > input {
+  width: 250px;
+  height: 40px;
+  border: 2px solid $color-text-primary;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 5px 10px;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+  background-color: $color-Unselected-Field-NoColorBtn;
+  color: $color-text-primary;
+
+  &::placeholder {
+    color: $text-secondary;
+    transition: color 0.2s ease-in-out;
+  }
+
+  &:focus {
+    background-color: $color-celeste-hover;
+    transform: translateY(-4px) translateX(-2px);
+    box-shadow: 2px 5px 0 0 $color-text-primary;
+    color: $color-text-primary;
+
+    &::placeholder {
+      color: $color-text-primary; 
+    }
+  }
+
+    &:hover {
+      background-color: $color-celeste-hover;
+
+      &::placeholder {
+         color: $color-text-primary; 
+    }
+    }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: $color-text-primary;
+  border: 2px solid $color-text-primary;
+  text-decoration: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.2s ease-in-out;
+  min-width: 100px;
+  text-align: center;
+
+  &.button-login {
+    background-color: $color-rosado;
+    color: $color-text-primary;
+
+    &:hover {
+      background-color: $color-rosado-hover;
+      transform: translateY(-4px) translateX(-2px);
+      box-shadow: 2px 5px 0 0 $color-text-primary;
+    }
+
+      &:active {
+      transform: translate(3px, 3px);
+      box-shadow: 0 0 0 0 $color-text-primary;
+    }
+  }
+}
