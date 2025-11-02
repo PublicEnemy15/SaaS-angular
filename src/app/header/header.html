@@ -4,5 +4,10 @@
     <span class="logo-text">Talkhub</span>
   </a>
 
-  <app-user-actions class="user-actions-container"></app-user-actions>
+  <app-user-actions 
+    class="user-actions-container"
+    [url]="url()"
+    [isLoggedIn]="isLoggedIn()">
+  </app-user-actions>
+
 </header>
