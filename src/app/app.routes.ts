@@ -7,6 +7,11 @@ export const routes: Routes = [
     title: 'Home - SaaS Angular',
   },
   {
+    path: 'tier/:plan',
+    loadComponent: () => import('./tier/tier').then((m)=> m.Tier),
+    title: 'Contratar Plan'
+  },
+  {
     path: 'login',
     loadComponent: () => import('./login/login').then((m) => m.Login),
     title: 'Login',
