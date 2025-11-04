@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy, Input, computed } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, ChangeDetectionStrategy, Input, computed, signal } from '@angular/core';
+import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-user-actions',
@@ -12,6 +13,19 @@ import { CommonModule } from '@angular/common';
 })
 export class UserActions {
   @Input() url: string = '';      
-  @Input() isLoggedIn = false;    
+  readonly isInDashboard = signal(false);
+
+  constructor(private router: Router) {
+    this.checkIfInDashboard();
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.checkIfInDashboard();
+      });
+  }
+  private checkIfInDashboard(): void {
+    const url = this.router.url;
+    this.isInDashboard.set(url.startsWith('/platform'));
+  }
 }
 

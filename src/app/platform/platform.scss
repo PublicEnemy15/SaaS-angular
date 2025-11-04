@@ -1,0 +1,10 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.platform {
+  display: block;
+  min-height: calc(100vh - 70px);
+  background-color: $color-bg-primary;
+}
+
+

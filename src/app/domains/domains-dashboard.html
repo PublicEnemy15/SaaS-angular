@@ -1,0 +1,49 @@
+<section class="domains">
+  <div class="domains__header">
+    <h2 class="domains__title">Dominios con el servicio activo</h2>
+  </div>
+  <div class="domains__grid">
+    <button class="domain-card domain-card--add" (click)="openAddModal()">
+      <span class="plus">+</span>
+      <span>Añadir Dominio</span>
+    </button>
+    <div class="domain-card" *ngFor="let d of domains()">
+      <div class="domain-card__header">
+        <div class="domain-card__name">{{ d.name }}</div>
+        <button class="icon-button" aria-label="Configuración" (click)="onOpenSettings(d)">
+          <span class="gear" aria-hidden="true">Config</span>
+        </button>
+      </div>
+      <div class="domain-card__meta">
+        <span>Activo</span>
+        <span>•</span>
+        <span>{{ d.createdAt | date:'mediumDate' }}</span>
+      </div>
+      <div class="domain-card__actions">
+        <a class="link" role="button" (click)="onViewInbox(d)">ver bandeja</a>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop" *ngIf="isAddModalOpen()" (click)="closeAddModal()"></div>
+  <div class="modal" *ngIf="isAddModalOpen()" role="dialog" aria-modal="true" aria-labelledby="addDomainTitle">
+    <div class="modal__header">
+      <h3 id="addDomainTitle">Añadir dominio</h3>
+      <button class="icon-button" aria-label="Cerrar" (click)="closeAddModal()">✕</button>
+    </div>
+    <div class="modal__body">
+      <label for="domainUrl" class="label">URL o dominio</label>
+      <input id="domainUrl" type="text" class="input" [formControl]="urlControl" placeholder="https://tu-dominio.com" />
+      <div class="hint">Acepta http(s) opcional. Se normalizará al dominio.</div>
+      <div class="error" *ngIf="urlControl.touched && urlControl.invalid">Formato no válido.</div>
+      <div class="error" *ngIf="!urlControl.invalid && isDuplicate()">Este dominio ya existe.</div>
+      <div class="success" *ngIf="submitSuccess()">{{ submitSuccess() }}</div>
+      <div class="error" *ngIf="submitError()">{{ submitError() }}</div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn" (click)="closeAddModal()">Cancelar</button>
+      <button class="btn btn-primary" [disabled]="urlControl.invalid || isDuplicate()" (click)="addDomain()">OK</button>
+    </div>
+  </div>
+</section>
+
+

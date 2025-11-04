@@ -1,11 +1,11 @@
 <div class="user-actions">
   
-  <a routerLink="/register" class="btn register-button">
+  <a *ngIf="!isInDashboard()" routerLink="/register" class="btn register-button">
     Registrarse
   </a>
 
-  <a routerLink="/login" class="btn plataforma-button">
-    Ir a plataforma
+  <a *ngIf="!isInDashboard()" routerLink="/login" class="btn plataforma-button">
+    ir a la plataforma
   </a>
 
 </div>

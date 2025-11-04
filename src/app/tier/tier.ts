@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tier',
+  standalone: true,
+  imports: [FormsModule],
   templateUrl: './tier.html',
   styleUrls: ['./tier.scss']
 })
@@ -10,8 +14,11 @@ export class Tier implements OnInit {
 
   planName = '';
   planType = '';
+  companyName = '';
+  email = '';
+  password = '';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute,private authService: AuthService) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -42,6 +49,13 @@ export class Tier implements OnInit {
 
   onSubmit(event: Event) {
     event.preventDefault();
-    console.log('Formulario enviado para:', this.planName);
+    if (this.companyName && this.email && this.password) {
+      this.authService.register({
+        email: this.email,
+        password: this.password,
+        companyName: this.companyName,
+        planType: this.planType
+      });
+    }
   }
 }
