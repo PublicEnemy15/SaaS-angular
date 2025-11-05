@@ -21,6 +21,13 @@ export class Tier implements OnInit {
   constructor(private route: ActivatedRoute,private authService: AuthService) {}
 
   ngOnInit() {
+    const tempUser = this.authService.getTempUserData();
+    if (tempUser) {
+      this.email = tempUser.email || '';
+      this.password = tempUser.password || '';
+      this.companyName = tempUser.companyName || '';
+    }
+
     this.route.paramMap.subscribe(params => {
       const id = params.get('plan');
       this.updatePlan(id);
@@ -50,7 +57,7 @@ export class Tier implements OnInit {
   onSubmit(event: Event) {
     event.preventDefault();
     if (this.companyName && this.email && this.password) {
-      this.authService.register({
+      this.authService.completeRegistration({
         email: this.email,
         password: this.password,
         companyName: this.companyName,

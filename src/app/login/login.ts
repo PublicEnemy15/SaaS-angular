@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
@@ -14,15 +14,22 @@ import { AuthService } from '../services/auth.service';
 export class Login {
   email = '';
   password = '';
+  errorMessage = signal('');
 
   constructor(private authService: AuthService) {}
 
   onLogin(): void {
+    this.errorMessage.set('');
     if (this.email && this.password) {
-      this.authService.login({
+      const success = this.authService.login({
         email: this.email,
         password: this.password
       });
+      if (!success) {
+        this.errorMessage.set('Email o contraseña incorrectos');
+      }
+    } else {
+      this.errorMessage.set('Por favor completa todos los campos');
     }
   }
 }

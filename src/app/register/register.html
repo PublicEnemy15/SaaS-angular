@@ -1,9 +1,9 @@
 <div class="form-container">
-  <form action="" class="form">
+  <form (ngSubmit)="onRegister()" class="form">
     <p>Registrate!</p>
-    <input type="name" placeholder="Nombre" />
-    <input type="email" placeholder="Email" name="email" />
-    <input type="password" placeholder="Password" name="password" />
-    <a class="btn button-confirm">Confirmar!</a>
+    <input type="text" placeholder="Nombre" [(ngModel)]="name" name="name" required />
+    <input type="email" placeholder="Email" name="email" [(ngModel)]="email" required />
+    <input type="password" placeholder="Password" name="password" [(ngModel)]="password" required />
+    <button type="submit" class="btn button-confirm">Confirmar!</button>
   </form>
 </div>
