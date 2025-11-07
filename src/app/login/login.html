@@ -1,10 +1,10 @@
 <div class="form-container">
-  <form (ngSubmit)="onLogin()" class="form">
+  <form class="form">
     <p> Bienvenido,<span>Inicia sesion para continuar</span> </p>
     
-    <input type="email" placeholder="Email" name="email" [(ngModel)]="email" required>
-    <input type="password" placeholder="Contrasenia" name="password" [(ngModel)]="password" required>
-    <button type="submit" class="btn button-login">Iniciar Sesion</button>
+    <input type="email" placeholder="Email" name="email"  required>
+    <input type="password" placeholder="Contrasenia" name="password" required>
+    <button (click)="login()" type="submit" class="btn button-login">Iniciar Sesion</button>
 
   </form>
 </div>

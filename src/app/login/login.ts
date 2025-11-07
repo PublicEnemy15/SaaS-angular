@@ -12,24 +12,24 @@ import { AuthService } from '../services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Login {
-  email = '';
-  password = '';
-  errorMessage = signal('');
+  email ='';
+  password ='';
+  message = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private  auth: AuthService){}
 
-  onLogin(): void {
-    this.errorMessage.set('');
-    if (this.email && this.password) {
-      const success = this.authService.login({
-        email: this.email,
-        password: this.password
-      });
-      if (!success) {
-        this.errorMessage.set('Email o contraseña incorrectos');
+  login(){
+    const data = {mail: this.email, pwd: this.password};
+    this.auth.login(data).subscribe({
+      next:(res)=>{
+        console.log('Login exitoso: ',res);
+        localStorage.setItem('token: ', res.token);
+        this.message = 'Inicio de sesion exitoso'
+      },
+      error:(err)=> {
+        console.error('Error al loguearse: ',err);
+        this.message= 'Error: credenciales invalidas'
       }
-    } else {
-      this.errorMessage.set('Por favor completa todos los campos');
-    }
+    })
   }
 }

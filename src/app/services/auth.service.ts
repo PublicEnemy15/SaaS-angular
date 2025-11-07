@@ -1,64 +1,51 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-
-export interface UserData {
-  email: string;
-  password?: string;
-  companyName?: string;
-  planType?: string;
-  [key: string]: any;
-}
+import { Injectable, signal } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable, tap } from "rxjs";
+import { environment } from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
-  private readonly STORAGE_KEY = 'user_data';
+  private apiurl = environment.apiUrl;
+  // private isAutenticated = signal<boolean>(false);
+  // private userData = signal<any>(null);
 
-  constructor(private router: Router) {}
+  // constructor(private http: HttpClient) {
+  //   const storedUser = localStorage.getItem('user');
+  //   if (storedUser) {
+  //     this.userData.set(JSON.parse(storedUser));
+  //     this.isAutenticated.set(true);
+  //   }
+  // }
 
-  login(user: UserData): boolean {
-    const savedUser = this.getUserData();
-        if (savedUser) {
-      if (savedUser.email === user.email && savedUser.password === user.password) {
-        this.router.navigate(['/platform/domains']);
-        return true;
-      }
-      return false;
-    }
-    
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
-    this.router.navigate(['/platform/domains']);
-    return true;
+  // register(userData: { name: string; mail: string; pwd: string; }): Observable<any> {
+  //   const payload = {
+  //     name: userData.name,
+  //     mail: userData.mail,
+  //     pwd: userData.pwd
+  //   };
+
+  //   return this.http.post(`${this.apiurl}/users/register`, payload, {
+  //     headers: { 'Content-Type': 'application/json' },
+  //     withCredentials: true
+  //   }).pipe(
+  //     tap((res)=>{
+  //       this.userData.set(res);
+  //       this.isAutenticated.set(true);
+  //       localStorage.setItem('user',JSON.stringify(res));
+  //     })
+  //   );
+  // }
+
+  constructor(private http: HttpClient){}
+
+  register(userData: any): Observable<any>{
+    return this.http.post(`${this.apiurl}/users/register`, userData, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
   }
 
-  register(user: UserData): void {
-    localStorage.setItem('temp_user_data', JSON.stringify(user));
-  }
-
-  completeRegistration(user: UserData): void {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
-    localStorage.removeItem('temp_user_data');
-    this.router.navigate(['/platform/domains']);
-  }
-
-  isLoggedIn(): boolean {
-    return localStorage.getItem(this.STORAGE_KEY) !== null;
-  }
-
-  getUserData(): UserData | null {
-    const data = localStorage.getItem(this.STORAGE_KEY);
-    return data ? JSON.parse(data) : null;
-  }
-
-  getTempUserData(): UserData | null {
-    const data = localStorage.getItem('temp_user_data');
-    return data ? JSON.parse(data) : null;
-  }
-
-  logout(): void {
-    localStorage.removeItem(this.STORAGE_KEY);
-    this.router.navigate(['/login']);
+  login(credentials:any): Observable<any>{
+    return this.http.post(`${this.apiurl}/users/login`, credentials, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
   }
 }
-

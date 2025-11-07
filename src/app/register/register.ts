@@ -12,37 +12,27 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./register.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Register implements OnInit {
+export class Register {
+  
   name = '';
   email = '';
   password = '';
-  selectedPlan: string | null = null;
+  message = '';
 
-  constructor(
-    private authService: AuthService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+  constructor(private auth: AuthService) {}
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.selectedPlan = params['plan'] || null;
-    });
-  }
-
-  onRegister(): void {
-    if (this.name && this.email && this.password) {
-      this.authService.register({
-        email: this.email,
-        password: this.password,
-        companyName: this.name
-      });
-      
-      if (this.selectedPlan) {
-        this.router.navigate(['/tier', this.selectedPlan]);
-      } else {
-        this.router.navigate(['/']);
+  register() {
+    const data = { name: this.name, mail: this.email, pwd: this.password };
+    console.log('Datos enviados al backend:', data);
+    this.auth.register(data).subscribe({
+      next: (res) => {
+        console.log('Registro exitoso:', res);
+        this.message = 'Usuario registrado correctamente';
+      },
+      error: (err) => {
+        console.error('Error en registro:', err);
+        this.message = 'Error al registrar ';
       }
-    }
+    });
   }
 }

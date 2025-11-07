@@ -14,20 +14,10 @@ export class Tier implements OnInit {
 
   planName = '';
   planType = '';
-  companyName = '';
-  email = '';
-  password = '';
 
-  constructor(private route: ActivatedRoute,private authService: AuthService) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    const tempUser = this.authService.getTempUserData();
-    if (tempUser) {
-      this.email = tempUser.email || '';
-      this.password = tempUser.password || '';
-      this.companyName = tempUser.companyName || '';
-    }
-
     this.route.paramMap.subscribe(params => {
       const id = params.get('plan');
       this.updatePlan(id);
@@ -55,14 +45,7 @@ export class Tier implements OnInit {
   }
 
   onSubmit(event: Event) {
-    event.preventDefault();
-    if (this.companyName && this.email && this.password) {
-      this.authService.completeRegistration({
-        email: this.email,
-        password: this.password,
-        companyName: this.companyName,
-        planType: this.planType
-      });
-    }
+    event.preventDefault(); // evita el envío nativo
+    console.log('Formulario enviado para:', this.planName);
   }
 }

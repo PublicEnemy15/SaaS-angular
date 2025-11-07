@@ -4,9 +4,9 @@
     <p>{{ planType }}</p>
 
     <form (submit)="onSubmit($event)">
-      <input type="text" placeholder="Nombre de la Empresa" [(ngModel)]="companyName" name="companyName" required />
-      <input type="email" placeholder="Correo" [(ngModel)]="email" name="email" required />
-      <input type="password" placeholder="Contraseña" [(ngModel)]="password" name="password" required />
+      <input type="text" placeholder="Nombre de la Empresa" required />
+      <input type="email" placeholder="Correo" required />
+      <input type="password" placeholder="Contraseña" required />
       <button type="submit">Contratar</button>
     </form>
   </div>
