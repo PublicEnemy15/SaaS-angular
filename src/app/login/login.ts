@@ -20,10 +20,10 @@ export class Login {
 
   login(){
     const data = {mail: this.email, pwd: this.password};
+    console.log('Datos enviados al backend:', data);
     this.auth.login(data).subscribe({
       next:(res)=>{
         console.log('Login exitoso: ',res);
-        localStorage.setItem('token: ', res.token);
         this.message = 'Inicio de sesion exitoso'
       },
       error:(err)=> {
