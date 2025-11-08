@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Router } from '@angular/router';
 
 const urlOrDomainValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const raw = (control.value ?? '').toString().trim();
@@ -41,7 +42,7 @@ export class DomainsDashboard {
     return this.domains().some(d => d.name.toLowerCase() === normalized);
   });
 
-  constructor() {
+  constructor(private router: Router) {
     effect(() => {
       void this.urlControl.value;
       this.submitError.set(null);
@@ -86,7 +87,7 @@ export class DomainsDashboard {
   }
 
   onViewInbox(domain: DomainItem): void {
-    
+    this.router.navigate(['/dashboard/comments'], { queryParams: { domain: domain.name } });
     console.info('Ver bandeja de:', domain.name);
   }
 

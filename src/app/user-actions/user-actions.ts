@@ -30,8 +30,8 @@ export class UserActions {
   
   private checkIfInDashboard(): void {
     const url = this.router.url;
-    // Ocultar botones en platform y tier
-    this.isInDashboard.set(url.startsWith('/platform') || url.startsWith('/tier'));
+    // Ocultar botones en platform, tier y dashboard/comments
+    this.isInDashboard.set(url.startsWith('/platform') || url.startsWith('/tier') || url.startsWith('/dashboard/comments'));
   }
 }
 
