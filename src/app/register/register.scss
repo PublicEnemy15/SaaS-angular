@@ -20,7 +20,7 @@
   box-shadow: 4px 4px $color-text-primary;
 }
 
-.form > p {
+.form>p {
   color: $color-text-primary;
   font-weight: 700;
   font-size: 20px;
@@ -29,7 +29,7 @@
   flex-direction: column;
 }
 
-.form > input {
+.form>input {
   width: 250px;
   height: 40px;
   border: 2px solid $color-text-primary;
@@ -53,17 +53,17 @@
     color: $color-text-primary;
 
     &::placeholder {
-      color: $color-text-primary; 
+      color: $color-text-primary;
     }
   }
 
-    &:hover {
-      background-color: $color-rosado-hover;
+  &:hover {
+    background-color: $color-rosado-hover;
 
-      &::placeholder {
-         color: $color-text-primary; 
+    &::placeholder {
+      color: $color-text-primary;
     }
-    }
+  }
 }
 
 .btn {
@@ -91,10 +91,42 @@
       box-shadow: 2px 5px 0 0 $color-text-primary;
     }
 
-      &:active {
+    &:active {
       transform: translate(3px, 3px);
       box-shadow: 0 0 0 0 $color-text-primary;
     }
   }
 }
 
+.message {
+  width: 250px;
+  text-align: center;
+  font-size: 0.8rem; 
+  font-weight: 600;
+  padding: 1px 5px; 
+  border-radius: 6px;
+  margin-top: 5px;
+  align-self: center;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  color: $color-text-primary;
+  background-color: rgba($color-celeste, 0.15);
+  border: 1px solid $color-celeste;
+  box-shadow: 2px 2px 0 0 rgba($color-text-primary, 0.8); 
+  transition: all 0.3s ease-in-out;
+
+  &.error {
+    background-color: rgba(255, 99, 99, 0.12);
+    border-color: #ff4d4d;
+    color: #d93025;
+    box-shadow: 2px 2px 0 0 rgba(#d93025, 0.3); 
+  }
+
+  &.success {
+    background-color: rgba(72, 239, 128, 0.12);
+    border-color: #4caf50;
+    color: #256d1b;
+    box-shadow: 2px 2px 0 0 rgba(#256d1b, 0.3); 
+  }
+}

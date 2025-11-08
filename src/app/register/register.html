@@ -4,10 +4,14 @@
     <input type="text" id="name" name="name" [(ngModel)]="name" placeholder="Nombre" required />
     <input type="email" id="email" name="email" [(ngModel)]="email" placeholder="Email" required />
     <input type="password" id="password" name="password" [(ngModel)]="password" placeholder="Password" required />
+    <p *ngIf="message" class="message" [ngClass]="{
+        'error': message.includes('8') || message.includes('inválido') || message.includes('Rellenar'),
+        'success': message.includes('registrado') || message.includes('éxito')
+      }">{{message}} </p>
 
     <button type="submit" class="btn button-confirm">Confirmar!</button>
   </form>
-<!-- 
+  <!-- 
   <form class="form">
     <p>Registrate!</p>
     <input type="text" placeholder="Nombre"  name="name" required />

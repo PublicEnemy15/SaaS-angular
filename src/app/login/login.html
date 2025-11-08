@@ -4,6 +4,6 @@
     <input type="email" placeholder="Email" name="email" [(ngModel)]="email"  required>
     <input type="password" placeholder="Contrasenia" name="password" [(ngModel)]="password" required>
     <button type="submit" class="btn button-login">Iniciar Sesion</button>
-
+    <p *ngIf="message" class="message">{{message}}</p>
   </form>
 </div>
