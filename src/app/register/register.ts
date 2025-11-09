@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,7 +18,7 @@ export class Register {
   password = '';
   message = '';
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private router: Router, private zone: NgZone) { }
 
   private validacionemail(email: string): boolean {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -28,7 +28,7 @@ export class Register {
   register() {
 
     if (!this.name.trim() || !this.email.trim() || !this.password.trim()) {
-        this.message = 'Rellenar todos los campos'
+      this.message = 'Rellenar todos los campos'
       console.warn('Formulario incompleto', {
         name: this.name,
         email: this.email,
@@ -54,7 +54,14 @@ export class Register {
     this.auth.register(data).subscribe({
       next: (res) => {
         console.log('Registro exitoso:', res);
-        this.message = 'Usuario registrado correctamente';
+        this.zone.run(() => {
+          this.message = 'Usuario registrado correctamente'
+        })
+        setTimeout(() => {
+          this.zone.run(() => {
+            this.router.navigate(['/login']);
+          });
+        }, 500);
       },
       error: (err) => {
         console.error('Error en registro:', err);
