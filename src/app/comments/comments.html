@@ -1,0 +1,41 @@
+<div class="comentarios-container">
+  <div class="comentarios-header">
+    <h1 class="comentarios-title">Comentarios para {{ domainName() }}</h1>
+    <button class="btn btn-back" (click)="goBack()">Volver</button>
+  </div>
+
+  <div class="comentarios-grid">
+    <div class="comment-card" *ngFor="let comment of comments()">
+      <div class="comment-card__header">
+        <div class="comment-card__user-info">
+          <div class="comment-card__username">{{ comment.username }}</div>
+          <div class="comment-card__date">{{ formatDate(comment.date) }}</div>
+        </div>
+        <div class="comment-card__actions">
+          <button class="options-button" (click)="toggleMenu(comment.id)" aria-label="Opciones">
+            <span class="dots">⋯</span>
+          </button>
+          <div class="options-menu" [id]="'menu-' + comment.id">
+            <button class="menu-item delete-button" (click)="deleteComment(comment.id)">
+              Eliminar comentario
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="comment-card__content">
+        <p class="comment-card__text">{{ comment.comment }}</p>
+      </div>
+      
+      <div class="comment-card__footer">
+        <div class="comment-card__replies">
+          <span class="replies-count">{{ comment.replies }} respuestas</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-comments" *ngIf="comments().length === 0">
+      <p>No hay comentarios disponibles.</p>
+    </div>
+  </div>
+</div>

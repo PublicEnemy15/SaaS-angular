@@ -34,4 +34,3 @@ export class UserActions {
     this.isInDashboard.set(url.startsWith('/platform') || url.startsWith('/tier') || url.startsWith('/dashboard/comments'));
   }
 }
-

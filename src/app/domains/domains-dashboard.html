@@ -3,10 +3,38 @@
     <h2 class="domains__title">Dominios con el servicio activo</h2>
   </div>
   <div class="domains__grid">
+    <div class="domain-card domain-card--plan" *ngIf="selectedPlan()">
+      <div class="domain-card__header">
+        <div class="domain-card__name">Plan contratado</div>
+      </div>
+      <div class="domain-card__meta">
+        <span>{{ selectedPlan() }}</span>
+      </div>
+      <div class="domain-card__actions">
+        <span class="success">¡Plan activo!</span>
+      </div>
+    </div>
+    <div class="domain-card" *ngIf="selectedDomain()">
+      <div class="domain-card__header">
+        <div class="domain-card__name">{{ selectedDomain() }}</div>
+        <button class="icon-button" aria-label="Configuración">
+          <span class="gear" aria-hidden="true">Config</span>
+        </button>
+      </div>
+      <div class="domain-card__meta">
+        <span>Activo</span>
+        <span>•</span>
+        <span>Hoy</span>
+      </div>
+      <div class="domain-card__actions">
+        <button class="btn btn-primary" [disabled]="!getSelectedDomainItem()" (click)="onViewInboxSelectedDomain()">Ver bandeja</button>
+      </div>
+    </div>
     <button class="domain-card domain-card--add" (click)="openAddModal()">
       <span class="plus">+</span>
       <span>Añadir Dominio</span>
     </button>
+    <!-- Cards de dominios existentes -->
     <div class="domain-card" *ngFor="let d of domains()">
       <div class="domain-card__header">
         <div class="domain-card__name">{{ d.name }}</div>
@@ -21,6 +49,7 @@
       </div>
       <div class="domain-card__actions">
         <button class="btn btn-primary" (click)="onViewInbox(d)">Ver bandeja</button>
+        <span class="comments-count">Comentarios: {{ d.commentsCount || 0 }}</span>
       </div>
     </div>
   </div>

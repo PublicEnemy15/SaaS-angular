@@ -18,15 +18,30 @@ export class Register {
   password = '';
   message = '';
 
-  constructor(private auth: AuthService, private router: Router, private zone: NgZone) { }
+  constructor(private auth: AuthService, private router: Router, private zone: NgZone, private route: ActivatedRoute) { }
 
   private validacionemail(email: string): boolean {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email)
   }
 
-  register() {
+  ngOnInit() {
 
+    this.route.queryParamMap.subscribe((params: any) => {
+      const planId = params.get('plan');
+      if (planId) {
+        let planTitle = '';
+        switch (planId) {
+          case '1': planTitle = 'Plan 1: Basico'; break;
+          case '2': planTitle = 'Plan 2: Intermedio'; break;
+          case '3': planTitle = 'Plan 3: Premium'; break;
+        }
+        if (planTitle) localStorage.setItem('selectedPlan', planTitle);
+      }
+    });
+  }
+
+  register() {
     if (!this.name.trim() || !this.email.trim() || !this.password.trim()) {
       this.message = 'Rellenar todos los campos'
       console.warn('Formulario incompleto', {
@@ -54,12 +69,17 @@ export class Register {
     this.auth.register(data).subscribe({
       next: (res) => {
         console.log('Registro exitoso:', res);
+        // Guarda email y password para validación en tier
+        localStorage.setItem('registeredEmail', this.email);
+        localStorage.setItem('registeredPassword', this.password);
         this.zone.run(() => {
           this.message = 'Usuario registrado correctamente'
         })
         setTimeout(() => {
           this.zone.run(() => {
-            this.router.navigate(['/login']);
+            // Navega al tier con el plan seleccionado tras registro
+            const plan = localStorage.getItem('selectedPlan') || 'Plan 1: Basico';
+            this.router.navigate(['/tier', plan === 'Plan 1: Basico' ? '1' : plan === 'Plan 2: Intermedio' ? '2' : plan === 'Plan 3: Premium' ? '3' : '1']);
           });
         }, 500);
       },
