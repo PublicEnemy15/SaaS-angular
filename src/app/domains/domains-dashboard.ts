@@ -12,6 +12,19 @@ const urlOrDomainValidator: ValidatorFn = (control: AbstractControl): Validation
   return pattern.test(raw) ? null : { urlFormat: true };
 };
 
+interface ClientData {
+  idClient: number;
+  idUser: number;
+  idTier: number;
+  status: number;
+}
+
+interface PlanInfo {
+  name: string;
+  type: string;
+  maxWebs: number;
+}
+
 @Component({
   selector: 'app-domains-dashboard',
   standalone: true,
@@ -26,6 +39,7 @@ export class DomainsDashboard {
 
   // Signals de estado
   readonly roles = signal<{ clientRole: boolean; modRole: boolean } | null>(null);
+  readonly clientData = signal<ClientData | null>(null);
   readonly selectedPlan = signal<string>(localStorage.getItem('selectedPlan') || '');
   readonly selectedDomain = signal<string>(localStorage.getItem('selectedDomain') || '');
   readonly domains = signal<DomainItem[]>([]);
@@ -38,6 +52,25 @@ export class DomainsDashboard {
   readonly urlControl = new FormControl<string>('', { 
     nonNullable: true, 
     validators: [Validators.required, urlOrDomainValidator] 
+  });
+
+  // Computed para plan actual
+  readonly currentPlan = computed((): PlanInfo => {
+    const clientData = this.clientData();
+    if (!clientData) {
+      // Fallback a localStorage
+      const localPlan = localStorage.getItem('selectedPlan') || '';
+      return this.getPlanInfoFromName(localPlan);
+    }
+
+    return this.getPlanInfoFromTier(clientData.idTier);
+  });
+
+  // Computed para verificar si puede agregar más webs
+  readonly canAddMoreWebs = computed(() => {
+    const plan = this.currentPlan();
+    const currentWebsCount = this.domains().length;
+    return currentWebsCount < plan.maxWebs;
   });
 
   // Computed
@@ -59,6 +92,30 @@ export class DomainsDashboard {
     this.loadInitialData();
   }
 
+  private getPlanInfoFromTier(idTier: number): PlanInfo {
+    switch (idTier) {
+      case 1:
+        return { name: 'Plan 1: Básico', type: 'Plan Básico', maxWebs: 1 };
+      case 2:
+        return { name: 'Plan 2: Intermedio', type: 'Plan Intermedio', maxWebs: 5 };
+      case 3:
+        return { name: 'Plan 3: Premium', type: 'Plan Premium', maxWebs: 999 }; // Ilimitado
+      default:
+        return { name: 'Sin Plan', type: 'Sin Plan', maxWebs: 0 };
+    }
+  }
+
+  private getPlanInfoFromName(planName: string): PlanInfo {
+    if (planName.includes('Básico') || planName.includes('Plan 1')) {
+      return { name: 'Plan 1: Básico', type: 'Plan Básico', maxWebs: 1 };
+    } else if (planName.includes('Intermedio') || planName.includes('Plan 2')) {
+      return { name: 'Plan 2: Intermedio', type: 'Plan Intermedio', maxWebs: 5 };
+    } else if (planName.includes('Premium') || planName.includes('Plan 3')) {
+      return { name: 'Plan 3: Premium', type: 'Plan Premium', maxWebs: 999 };
+    }
+    return { name: 'Sin Plan', type: 'Sin Plan', maxWebs: 0 };
+  }
+
   private loadInitialData(): void {
     this.isLoading.set(true);
 
@@ -69,6 +126,21 @@ export class DomainsDashboard {
       },
       error: () => {
         this.roles.set(null);
+      }
+    });
+
+    // Cargar datos del cliente
+    this.dashboard.getClientData().subscribe({
+      next: (data) => {
+        this.clientData.set(data);
+        const planInfo = this.getPlanInfoFromTier(data.idTier);
+        this.selectedPlan.set(planInfo.name);
+        localStorage.setItem('selectedPlan', planInfo.name);
+      },
+      error: (err) => {
+        console.error('Error cargando datos del cliente:', err);
+        // Fallback a localStorage
+        this.clientData.set(null);
       }
     });
 
@@ -116,6 +188,11 @@ export class DomainsDashboard {
   }
 
   openAddModal(): void {
+    if (!this.canAddMoreWebs()) {
+      this.submitError.set(`Has alcanzado el límite de dominios para tu plan (${this.currentPlan().maxWebs}). Actualiza tu plan para agregar más.`);
+      return;
+    }
+
     this.isAddModalOpen.set(true);
     this.urlControl.setValue('');
     this.submitError.set(null);
@@ -131,6 +208,11 @@ export class DomainsDashboard {
     
     if (this.urlControl.invalid) {
       this.submitError.set('Formato de URL o dominio no válido.');
+      return;
+    }
+
+    if (!this.canAddMoreWebs()) {
+      this.submitError.set(`Has alcanzado el límite de dominios para tu plan (${this.currentPlan().maxWebs}).`);
       return;
     }
 

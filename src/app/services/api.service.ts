@@ -3,16 +3,14 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "../environments/environment";
 
-// Interfaces que coinciden con tu API backend
 export interface DomainItem {
   name: string;
-  createdAt?: string;
-  commentsCount?: number;
-  idWeb?: number;
+  idWeb?: string; 
   mode?: string;
-  status?: string;
+  status?: number;
+  createdAt: string;
+  commentsCount: number;
 }
-
 export interface WebResponse {
   idWeb: number;
   domain: string;

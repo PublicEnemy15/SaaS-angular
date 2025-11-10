@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
@@ -5,33 +6,33 @@ import { Router } from '@angular/router';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './login.html',
-  styleUrls: ['./login.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './login.html',
+  styleUrls: ['./login.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Login {
-  email = '';
-  password = '';
-  message = '';
+  email = '';
+  password = '';
+  message = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
-  login() {
-    const data = { mail: this.email, pwd: this.password };
-    console.log('Datos enviados al backend:', data);
-    this.auth.login(data).subscribe({
-      next: (res) => {
-        console.log('Login exitoso: ', res);
-        this.message = 'Inicio de sesion exitoso';
-        this.router.navigate(['/platform']);
-      },
-      error: (err) => {
-        console.error('Error al loguearse: ', err);
-        this.message = 'Error: credenciales invalidas';
-      },
-    });
-  }
+  login() {
+    const data = { email: this.email, password: this.password };
+    console.log('Datos enviados al backend:', data);
+    this.auth.login(data).subscribe({
+      next: (res) => {
+        console.log('Login exitoso: ', res);
+        this.message = 'Inicio de sesion exitoso';
+        this.router.navigate(['/platform']);
+      },
+      error: (err) => {
+        console.error('Error al loguearse: ', err);
+        this.message = 'Error: credenciales invalidas';
+      },
+    });
+  }
 }
