@@ -1,69 +1,13 @@
 <div class="tier">
-  <div class="tier-card" *ngIf="selectedTier() as tier">
-    <h2>{{ tier.displayName }}</h2>
-    <p>{{ tier.name }}</p>
+  <div class="tier-card">
+    <h2>{{ planName }}</h2>
+    <p>{{ planType }}</p>
 
-    <!-- Lista de características del plan -->
-    <ul class="features-list">
-      <li *ngFor="let feature of tier.features">✓ {{ feature }}</li>
-    </ul>
-
-    <form [formGroup]="tierForm" (ngSubmit)="onSubmit()">
-      <!-- Dominio (ahora es el primero como "Nombre de la Empresa") -->
-      <input 
-        type="text" 
-        formControlName="domain"
-        placeholder="Dominio de tu empresa (ej: miempresa.com)" 
-        [class.error]="domainControl?.invalid && domainControl?.touched"
-      />
-      <span *ngIf="domainControl?.invalid && domainControl?.touched" class="error-text">
-        Formato inválido. Usa: ejemplo.com
-      </span>
-
-      <!-- Email -->
-      <input 
-        type="email" 
-        formControlName="email"
-        placeholder="Correo" 
-        required
-        [class.error]="emailControl?.invalid && emailControl?.touched"
-      />
-      <span *ngIf="emailControl?.invalid && emailControl?.touched" class="error-text">
-        Email inválido
-      </span>
-
-      <!-- Password -->
-      <input 
-        type="password" 
-        formControlName="password"
-        placeholder="Contraseña" 
-        required
-        [class.error]="passwordControl?.invalid && passwordControl?.touched"
-      />
-      <span *ngIf="passwordControl?.invalid && passwordControl?.touched" class="error-text">
-        Mínimo 6 caracteres
-      </span>
-
-      <!-- Mensaje de error general -->
-      <div *ngIf="submitError()" class="alert-error">
-        {{ submitError() }}
-      </div>
-
-      <!-- Botón de submit con estado de carga -->
-      <button 
-        type="submit" 
-        [disabled]="isSubmitting()"
-        [class.loading]="isSubmitting()"
-      >
-        <span *ngIf="!isSubmitting()">Contratar</span>
-        <span *ngIf="isSubmitting()">Procesando...</span>
-      </button>
+    <form (submit)="onSubmit($event)">
+      <input type="text" placeholder="Nombre de la Empresa" required />
+      <input type="email" placeholder="Correo" required />
+      <input type="password" placeholder="Contraseña" required />
+      <button type="submit">Contratar</button>
     </form>
-  </div>
-
-  <!-- Estado cuando no hay plan seleccionado -->
-  <div class="tier-card error" *ngIf="!selectedTier()">
-    <h2>Plan no encontrado</h2>
-    <p>Por favor selecciona un plan válido</p>
   </div>
 </div>

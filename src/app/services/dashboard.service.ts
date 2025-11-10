@@ -48,13 +48,4 @@ export class DashboardService {
       withCredentials: true
     });
   }
-
-  addClient(tier: '1' | '2' | '3'): Observable<MessageResponse> {
-    const clientsUrl = this.apiUrl.replace('/dashboard', '/clients');
-    return this.http.post<MessageResponse>(
-      `${clientsUrl}/addClient/${tier}`,
-      {},
-      { withCredentials: true }
-    );
-  }
 }
