@@ -1,5 +1,5 @@
 
-import { Component, ChangeDetectionStrategy, Input, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomainsDashboard } from '../domains/domains-dashboard';
 
@@ -11,7 +11,7 @@ import { DomainsDashboard } from '../domains/domains-dashboard';
   styleUrls: ['./platform.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlatformPage {
+export class PlatformPage implements OnInit{
   // Signals para mostrar el plan y dominio seleccionado
   readonly selectedPlan = signal<string>('');
   readonly selectedDomain = signal<string>('');

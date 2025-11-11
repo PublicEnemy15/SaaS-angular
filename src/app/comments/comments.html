@@ -24,7 +24,7 @@
         </div>
       </div>
       
-      <div class="comment-card__content">
+      <div class="comment-card__content" (click)="viewCommentReplies(comment.id)">
         <p class="comment-card__text">{{ comment.comment }}</p>
       </div>
       

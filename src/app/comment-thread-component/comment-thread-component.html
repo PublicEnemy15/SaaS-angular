@@ -1,0 +1,37 @@
+<div class="thread-container" *ngIf="!loading(); else loadingTpl">
+  <ng-container *ngIf="!error(); else errorTpl">
+
+    <!-- Comentario principal -->
+    <div class="main-comment" *ngIf="comment()">
+      <h3 class="user" [innerHTML]="comment().user"></h3>
+      <p class="content">{{ comment().content }}</p>
+      <p class="meta">Respuestas: {{ comment().replies }}</p>
+    </div>
+
+    <hr>
+
+    <!-- Respuestas -->
+    <div class="replies" *ngIf="replies().length > 0; else noRepliesTpl">
+      <h4>Respuestas</h4>
+      <div class="reply" *ngFor="let reply of replies()">
+        <div class="reply-user" [innerHTML]="reply.user"></div>
+        <div class="reply-content">{{ reply.content }}</div>
+      </div>
+    </div>
+
+    <ng-template #noRepliesTpl>
+      <p class="no-replies">No hay respuestas aún.</p>
+    </ng-template>
+
+    <button class="back-btn" (click)="goBack()">⬅ Volver</button>
+
+  </ng-container>
+</div>
+
+<ng-template #loadingTpl>
+  <p class="loading">Cargando hilo...</p>
+</ng-template>
+
+<ng-template #errorTpl>
+  <p class="error">{{ error() }}</p>
+</ng-template>

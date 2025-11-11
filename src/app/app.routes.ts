@@ -32,6 +32,11 @@ export const routes: Routes = [
     title: 'Comentarios',
   },
   {
+    path: 'comment-thread',
+    loadComponent: () => import('./comment-thread-component/comment-thread-component').then((m) => m.CommentThreadComponent),
+    title: 'Hilo de Comentario',
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full',

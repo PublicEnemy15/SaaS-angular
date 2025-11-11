@@ -54,7 +54,7 @@ export interface CommentResponse {
 export class ApiService {
   private apiurl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Métodos de dominios (existentes en el proyecto)
   addDomain(domain: DomainItem): Observable<any> {
@@ -87,5 +87,11 @@ export class ApiService {
   postComment(body: any, fullUrl: string): Observable<any> {
     const headers = new HttpHeaders({ 'Full-URL': fullUrl, 'Content-Type': 'application/json' });
     return this.http.post(`${this.apiurl}/comments/implement`, body, { headers, withCredentials: true });
+  }
+
+  getInboxComment(idWeb: string, idComment: string) {
+    return this.http.get<any[]>(`${this.apiurl}/comments/inbox/${idWeb}/${idComment}`, {
+      withCredentials: true
+    });
   }
 }

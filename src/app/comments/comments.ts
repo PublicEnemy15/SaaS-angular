@@ -164,5 +164,13 @@ export class ComentariosComponent implements OnInit {
         this.loading.set(false);
       }
     });
+  
   }
+  viewCommentReplies(commentId: number): void {
+    if(this.idWeb) {
+      this.router.navigate(['/comment-thread'], { queryParams: { idWeb: this.idWeb, commentId } });
+    }else{
+      console.error('No se puede abrir el hilo: falta idWeb');
+  }
+  }  
 }
