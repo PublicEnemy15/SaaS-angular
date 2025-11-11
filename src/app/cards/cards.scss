@@ -144,6 +144,8 @@
   }
 }
 
+
+
 @keyframes glitch {
   0% {
     transform: translate(2px, 2px);
@@ -165,3 +167,4 @@
 .glitch {
   animation: glitch 0.3s infinite;
 }
+

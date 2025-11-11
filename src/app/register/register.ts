@@ -56,7 +56,7 @@ export class Register {
           this.message = 'Usuario registrado correctamente';
         });
         
-        // Crear cliente automáticamente tras el registro
+        // Crear cliente tras el registro
         this.auth.createClient('1').subscribe({
           next: (clientRes) => {
             console.log('Cliente creado automáticamente:', clientRes);
@@ -68,7 +68,7 @@ export class Register {
           },
           error: (clientErr) => {
             console.error('Error creando cliente:', clientErr);
-            // Aún así navegamos a la plataforma, aunque falle la creación del cliente
+            // Aun asi navegamos a la plataforma, aunque falle la creación del cliente
             setTimeout(() => {
               this.zone.run(() => {
                 this.router.navigate(['/platform']);

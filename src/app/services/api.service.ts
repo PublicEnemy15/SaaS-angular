@@ -1,3 +1,4 @@
+
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
@@ -24,7 +25,6 @@ export interface RolesResponse {
   modRole: boolean;
 }
 
-// Tipos para la API de comentarios (coinciden con la respuesta del backend)
 export interface CommentRow {
   idComment: number;
   rootId: number | null;
@@ -56,7 +56,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  // Métodos de dominios (existentes en el proyecto)
+  // Métodos de dominios 
   addDomain(domain: DomainItem): Observable<any> {
     return this.http.post(`${this.apiurl}/domains`, domain, {
       headers: { 'Content-Type': 'application/json' },
@@ -70,28 +70,55 @@ export class ApiService {
     });
   }
 
-  // --- Nuevos métodos para integrar la API de comentarios ---
-  // fullUrl debe incluir el host que espera el backend (p.ej. https://www.youtube.com/...)
+  //  Métodos para comentarios (implement) 
   getRootComments(fullUrl: string): Observable<CommentRow[]> {
     const headers = new HttpHeaders({ 'Full-URL': fullUrl });
-    return this.http.get<CommentRow[]>(`${this.apiurl}/comments/implement`, { headers, withCredentials: true });
+    return this.http.get<CommentRow[]>(`${this.apiurl}/comments/implement`, { 
+      headers, 
+      withCredentials: true 
+    });
   }
 
-  // Devuelve comentarios raíz con sus replies anidados (structure: CommentResponse[])
   getReplies(fullUrl: string): Observable<CommentResponse[]> {
     const headers = new HttpHeaders({ 'Full-URL': fullUrl });
-    return this.http.get<CommentResponse[]>(`${this.apiurl}/comments/implement/replies`, { headers, withCredentials: true });
+    return this.http.get<CommentResponse[]>(`${this.apiurl}/comments/implement/replies`, { 
+      headers, 
+      withCredentials: true 
+    });
   }
 
-  // Enviar un comentario (body debe seguir CommentImplement definido en el backend)
   postComment(body: any, fullUrl: string): Observable<any> {
-    const headers = new HttpHeaders({ 'Full-URL': fullUrl, 'Content-Type': 'application/json' });
-    return this.http.post(`${this.apiurl}/comments/implement`, body, { headers, withCredentials: true });
+    const headers = new HttpHeaders({ 
+      'Full-URL': fullUrl, 
+      'Content-Type': 'application/json' 
+    });
+    return this.http.post(`${this.apiurl}/comments/implement`, body, { 
+      headers, 
+      withCredentials: true 
+    });
   }
 
-  getInboxComment(idWeb: string, idComment: string) {
+  //  Métodos para inbox 
+  getInboxComment(idWeb: string, idComment: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiurl}/comments/inbox/${idWeb}/${idComment}`, {
       withCredentials: true
     });
+  }
+
+  //Responder a un comentario en el inbox
+  postInboxReply(idWeb: string, idComment: string, content: string): Observable<any> {
+    return this.http.post(
+      `${this.apiurl}/comments/inbox/${idWeb}/${idComment}/${encodeURIComponent(content)}`,
+      {},
+      { withCredentials: true }
+    );
+  }
+
+  // Eliminar comentario del inbox
+  deleteInboxComment(idWeb: string, idComment: string): Observable<any> {
+    return this.http.delete(
+      `${this.apiurl}/comments/inbox/${idWeb}/${idComment}`,
+      { withCredentials: true }
+    );
   }
 }

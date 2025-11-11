@@ -116,6 +116,29 @@
   }
 
   &__actions { margin-top: 4px; }
+  &__actions {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+
+    .btn {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .btn-danger {
+      background-color: #e74c3c;
+      color: #fff;
+      &:hover {
+        background-color: #c0392b;
+      }
+    }
+    .comments-info {
+      margin-left: auto;
+    }
+  }
 
   &--add {
     @extend .domain-card;

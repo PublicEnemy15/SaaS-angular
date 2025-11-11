@@ -55,7 +55,7 @@ export class UserActions implements OnInit, OnDestroy {
   
   private checkIfInDashboard(): void {
     const url = this.router.url;
-    // Ocultar botones en platform, tier y dashboard/comments (excepto el botón plataforma en home)
+    // Ocultar botones en platform, tier y dashboard/comments (excepto el boton plataforma en home)
     this.isInDashboard.set(url.startsWith('/platform') || url.startsWith('/tier') || url.startsWith('/dashboard/comments'));
   }
 

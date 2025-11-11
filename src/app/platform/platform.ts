@@ -16,9 +16,7 @@ export class PlatformPage implements OnInit{
   readonly selectedPlan = signal<string>('');
   readonly selectedDomain = signal<string>('');
 
-  // Simulación: en producción, estos datos vendrían de un servicio o localStorage
   ngOnInit() {
-    // Recuperar datos del plan y dominio (ejemplo)
     const plan = localStorage.getItem('selectedPlan');
     const domain = localStorage.getItem('selectedDomain');
     if (plan) this.selectedPlan.set(plan);

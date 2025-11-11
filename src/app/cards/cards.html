@@ -11,7 +11,10 @@
       <p class="card__more">{{ card.content }}</p>
 
       <div class="card__form">
-        <a class="card__button" [routerLink]="['/register']" [queryParams]="{plan: card.id}" role="button" aria-label="Ver {{card.title}}">Ver plan</a>
+        <a class="card__button" [routerLink]="['/register']" [queryParams]="{plan: card.id}" role="button" [attr.aria-label]="'Contratar ' + card.title + ' por ' + card.price">
+          <span class="price">{{ card.price }}</span>
+          <span class="continue"></span>
+        </a>
       </div>
     </article>
 
