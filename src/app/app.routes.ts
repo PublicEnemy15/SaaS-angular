@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -9,7 +10,8 @@ export const routes: Routes = [
   {
     path: 'tier/:plan',
     loadComponent: () => import('./tier/tier').then((m)=> m.Tier),
-    title: 'Contratar Plan'
+    title: 'Contratar Plan',
+    canActivate: [authGuard]
   },
   {
     path: 'login',
@@ -25,16 +27,19 @@ export const routes: Routes = [
     path: 'platform',
     loadComponent: () => import('./platform/platform').then((m) => m.PlatformPage),
     title: 'Dashboard',
+    canActivate: [authGuard]
   },
   {
     path: 'dashboard/comments',
     loadComponent: () => import('./comments/comments').then((m) => m.ComentariosComponent),
     title: 'Comentarios',
+    canActivate: [authGuard]
   },
   {
     path: 'comment-thread',
     loadComponent: () => import('./comment-thread-component/comment-thread-component').then((m) => m.CommentThreadComponent),
     title: 'Hilo de Comentario',
+    canActivate: [authGuard]
   },
   {
     path: '**',

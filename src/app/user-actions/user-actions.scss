@@ -52,5 +52,53 @@
         box-shadow: 0 0 0 0 black;
       }
     }
+
+    &.logout-button {
+      background-color: $color-rosado;
+      color: $color-text-primary;
+      border-color: $color-text-primary;
+      font-weight: bold;
+
+      &:hover {
+        background-color: $color-rosado-hover;
+        transform: translateY(-4px) translateX(-2px);
+        box-shadow: 2px 5px 0 0 black;
+      }
+
+      &:active {
+        transform: translateY(2px) translateX(1px);
+        box-shadow: 0 0 0 0 black;
+      }
+    }
+  }
+
+  .auth-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .time-remaining {
+      font-size: 0.9rem;
+      color: $color-text-primary;
+      padding: 5px 10px;
+      background-color: #f0f0f0;
+      border-radius: 4px;
+      font-weight: 500;
+
+      &.warning {
+        background-color: #fff3cd;
+        color: #856404;
+        animation: pulse 1s infinite;
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
   }
 }

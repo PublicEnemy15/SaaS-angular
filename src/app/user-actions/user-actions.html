@@ -1,11 +1,13 @@
 <div class="user-actions">
-  
-  <a *ngIf="!isInDashboard()" routerLink="/register" class="btn register-button">
+  <a *ngIf="!isInDashboard() && !isAuthenticated()" routerLink="/register" class="btn register-button">
     Registrarse
   </a>
 
-  <a *ngIf="!isInDashboard()" routerLink="/login" class="btn plataforma-button">
+  <a *ngIf="!isInDashboard()" routerLink="/platform" class="btn plataforma-button">
     ir a la plataforma
   </a>
+  <button *ngIf="isAuthenticated()" (click)="logout()" class="btn logout-button">
+    Cerrar sesión
+  </button>
 
 </div>
