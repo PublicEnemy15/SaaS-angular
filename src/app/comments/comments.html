@@ -4,22 +4,12 @@
     <button class="btn btn-back" (click)="goBack()">Volver</button>
   </div>
 
-  <div class="comentarios-grid">
+  <div class="comentarios-grid" *ngIf="!loading() && !error()">
     <div class="comment-card" *ngFor="let comment of comments()">
       <div class="comment-card__header">
         <div class="comment-card__user-info">
           <div class="comment-card__username">{{ comment.username }}</div>
           <div class="comment-card__date">{{ formatDate(comment.date) }}</div>
-        </div>
-        <div class="comment-card__actions">
-          <button class="options-button" (click)="toggleMenu(comment.id)" aria-label="Opciones">
-            <span class="dots">⋯</span>
-          </button>
-          <div class="options-menu" [id]="'menu-' + comment.id">
-            <button class="menu-item delete-button" (click)="deleteComment(comment.id)">
-              Eliminar comentario
-            </button>
-          </div>
         </div>
       </div>
       
@@ -28,7 +18,7 @@
       </div>
       
       <div class="comment-card__footer">
-        <div class="comment-card__replies">
+        <div class="comment-card__replies" *ngIf="comment.replies > 0">
           <span class="replies-count">{{ comment.replies }} respuestas</span>
         </div>
       </div>
@@ -37,5 +27,13 @@
     <div class="no-comments" *ngIf="comments().length === 0">
       <p>No hay comentarios disponibles.</p>
     </div>
+  </div>
+
+  <div class="loading" *ngIf="loading()">
+    <p>Cargando comentarios...</p>
+  </div>
+
+  <div class="error" *ngIf="error()">
+    <p>{{ error() }}</p>
   </div>
 </div>

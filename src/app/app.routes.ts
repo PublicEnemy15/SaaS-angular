@@ -28,7 +28,7 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard/comments',
-    loadComponent: () => import('./comentarios/comentarios').then((m) => m.ComentariosComponent),
+    loadComponent: () => import('./comments/comments').then((m) => m.ComentariosComponent),
     title: 'Comentarios',
   },
   {

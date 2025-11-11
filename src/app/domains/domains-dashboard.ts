@@ -260,26 +260,63 @@ export class DomainsDashboard {
       error: (err) => {
         this.isLoading.set(false);
         console.error('Error añadiendo web:', err);
-        this.submitError.set(err.error?.error || 'Error al añadir el dominio.');
+        console.error('Error status:', err.status);
+        console.error('Error body:', err.error);
+        
+        // Extraer el mensaje de error del backend si existe
+        let errorMsg = 'Error al añadir el dominio.';
+        
+        if (err.status === 500) {
+          errorMsg = 'Error interno del servidor. Por favor intenta más tarde.';
+          console.error('Detalles del error 500:', {
+            status: err.status,
+            statusText: err.statusText,
+            url: err.url,
+            errorBody: err.error
+          });
+          // Intentar recargar de todas formas por si se agregó parcialmente
+          setTimeout(() => {
+            this.dashboard.getClientWebs().subscribe({
+              next: (webs) => {
+                const items: DomainItem[] = webs.map(w => ({
+                  name: w.domain,
+                  idWeb: w.idWeb,
+                  mode: w.mode,
+                  status: w.status,
+                  createdAt: '',
+                  commentsCount: 0
+                }));
+                this.domains.set(items);
+                localStorage.setItem('domains', JSON.stringify(items));
+              },
+              error: () => {
+                console.warn('No se pudo recargar dominios');
+              }
+            });
+          }, 1000);
+        } else if (err.status === 404) {
+          errorMsg = 'Cliente no encontrado. Por favor recarga la página.';
+        } else if (err.status === 401) {
+          errorMsg = 'Tu sesión ha expirado. Por favor inicia sesión nuevamente.';
+        } else if (err.status === 400) {
+          errorMsg = 'Solicitud inválida. Verifica el formato del dominio.';
+          if (err.error?.error) {
+            errorMsg += ` - ${err.error.error}`;
+          }
+        } else if (err.error?.error) {
+          errorMsg = err.error.error;
+        } else if (err.message) {
+          errorMsg = err.message;
+        }
+        
+        this.submitError.set(errorMsg);
       }
     });
   }
 
-  onViewInboxSelectedDomain(): void {
-    const domain = this.getSelectedDomainItem();
-    if (domain) {
-      this.onViewInbox(domain);
-    }
-  }
-
-  getSelectedDomainItem(): DomainItem | null {
-    const name = this.selectedDomain();
-    return this.domains().find(d => d.name === name) || null;
-  }
-
   onViewInbox(domain: DomainItem): void {
     this.router.navigate(['/dashboard/comments'], { 
-      queryParams: { domain: domain.name } 
+      queryParams: { domain: domain.name, idWeb: domain.idWeb } 
     });
   }
 

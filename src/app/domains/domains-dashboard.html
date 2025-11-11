@@ -14,22 +14,6 @@
         <span class="success">¡Plan activo!</span>
       </div>
     </div>
-    <div class="domain-card" *ngIf="selectedDomain()">
-      <div class="domain-card__header">
-        <div class="domain-card__name">{{ selectedDomain() }}</div>
-        <button class="icon-button" aria-label="Configuración">
-          <span class="gear" aria-hidden="true">Config</span>
-        </button>
-      </div>
-      <div class="domain-card__meta">
-        <span>Activo</span>
-        <span>•</span>
-        <span>Hoy</span>
-      </div>
-      <div class="domain-card__actions">
-        <button class="btn btn-primary" [disabled]="!getSelectedDomainItem()" (click)="onViewInboxSelectedDomain()">Ver bandeja</button>
-      </div>
-    </div>
     <button class="domain-card domain-card--add" (click)="openAddModal()">
       <span class="plus">+</span>
       <span>Añadir Dominio</span>

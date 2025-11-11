@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService, CommentResponse } from '../services/api.service';
+import { DashboardService } from '../services/dashboard.service';
 
 interface Comment {
   id: number;
@@ -18,32 +20,57 @@ interface Comment {
   styleUrls: ['./comments.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ComentariosComponent {
+export class ComentariosComponent implements OnInit {
   domainName = signal<string>('');
-  
   comments = signal<Comment[]>([]);
+  loading = signal<boolean>(false);
+  error = signal<string | null>(null);
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  // fullUrl que se enviará en el header 'Full-URL', e idWeb para inbox
+  private fullUrl = '';
+  private idWeb = '';
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private api: ApiService,
+    private dashboard: DashboardService
+  ) {
     this.route.queryParams.subscribe(params => {
-      this.domainName.set(params['domain'] || 'Dominio desconocido');
+      // Buscar idWeb para bandeja del inbox
+      const idWebParam = params['idWeb'] || params['idweb'];
+      const fq = params['fullUrl'] || params['fullURL'] || params['fullurl'];
+      const domain = params['domain'];
+
+      if (idWebParam) {
+        this.idWeb = idWebParam;
+        this.fullUrl = '';
+        this.domainName.set(domain || idWebParam);
+      } else if (fq) {
+        this.fullUrl = fq;
+        this.idWeb = '';
+        this.domainName.set(fq);
+      } else if (domain) {
+        // Fallback: si solo tenemos domain, construimos un fullUrl genérico
+        const maybe = typeof domain === 'string' && domain.includes('youtube') ? domain : `https://www.youtube.com/watch?v=${domain}`;
+        this.fullUrl = maybe;
+        this.idWeb = '';
+        this.domainName.set(maybe);
+      } else {
+        // Fallback final
+        this.fullUrl = 'https://www.youtube.com/';
+        this.idWeb = '';
+        this.domainName.set('Dominio desconocido');
+      }
     });
+  }
+
+  ngOnInit(): void {
+    this.loadComments();
   }
 
   goBack(): void {
     this.router.navigate(['/platform']);
-  }
-
-  deleteComment(commentId: number): void {
-    this.comments.update(comments => 
-      comments.filter(comment => comment.id !== commentId)
-    );
-  }
-
-  toggleMenu(commentId: number): void {
-    const menu = document.querySelector(`#menu-${commentId}`);
-    if (menu) {
-      menu.classList.toggle('active');
-    }
   }
 
   formatDate(date: Date): string {
@@ -53,6 +80,64 @@ export class ComentariosComponent {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
+    });
+  }
+
+  private loadComments(): void {
+    this.loading.set(true);
+    this.error.set(null);
+
+    // Si tenemos idWeb, cargar del inbox; si no, cargar de implement con fullUrl
+    if (this.idWeb) {
+      this.loadInboxComments();
+    } else if (this.fullUrl) {
+      this.loadImplementComments();
+    } else {
+      this.error.set('No se ha proporcionado Full-URL o idWeb');
+      this.loading.set(false);
+    }
+  }
+
+  private loadInboxComments(): void {
+    this.dashboard.getInboxComments(this.idWeb).subscribe({
+      next: (res: any[]) => {
+        const mapped = res.map((comment: any) => ({
+          id: comment.idComment ?? 0,
+          username: comment.user ?? 'Anónimo',
+          comment: comment.content ?? '',
+          date: new Date(comment.created),
+          replies: comment.replies ?? 0
+        } as Comment));
+        this.comments.set(mapped);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading inbox comments', err);
+        this.error.set('Error cargando comentarios de la bandeja');
+        this.loading.set(false);
+      }
+    });
+  }
+
+  private loadImplementComments(): void {
+    // Usamos el endpoint /replies que devuelve root comments + arreglo de replies
+    this.api.getReplies(this.fullUrl).subscribe({
+      next: (res: CommentResponse[]) => {
+        const mapped = res.map(r => ({
+          id: r.idComment,
+          username: r.user,
+          comment: r.content,
+          date: new Date(r.created),
+          replies: r.replies ?? (r.comments?.length ?? 0)
+        } as Comment));
+        this.comments.set(mapped);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading comments', err);
+        this.error.set('Error cargando comentarios');
+        this.loading.set(false);
+      }
     });
   }
 }

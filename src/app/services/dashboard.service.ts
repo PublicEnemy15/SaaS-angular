@@ -61,4 +61,11 @@ export class DashboardService {
       withCredentials: true
     });
   }
+
+  // Obtener comentarios del inbox para un web específico
+  getInboxComments(idWeb: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/comments/inbox/${idWeb}`, {
+      withCredentials: true
+    });
+  }
 }
