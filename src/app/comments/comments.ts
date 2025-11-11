@@ -25,6 +25,7 @@ export class ComentariosComponent implements OnInit {
   comments = signal<Comment[]>([]);
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
+  activeMenu = signal<number | null>(null);
 
   // fullUrl que se enviará en el header 'Full-URL', e idWeb para inbox
   private fullUrl = '';
@@ -81,6 +82,30 @@ export class ComentariosComponent implements OnInit {
       hour: '2-digit',
       minute: '2-digit'
     });
+  }
+
+  toggleMenu(commentId: number): void {
+    this.activeMenu.set(this.activeMenu() === commentId ? null : commentId);
+  }
+
+  deleteComment(commentId: number): void {
+    // Eliminar el comentario del array
+    this.comments.update(comments => 
+      comments.filter(comment => comment.id !== commentId)
+    );
+    this.activeMenu.set(null);
+  }
+
+  goToWeb(): void {
+    // Navegar a la web actual
+    if (this.fullUrl) {
+      window.open(this.fullUrl, '_blank');
+    } else if (this.idWeb) {
+      // Si es del inbox, construir URL base
+      const baseUrl = `https://www.youtube.com/watch?v=${this.idWeb}`;
+      window.open(baseUrl, '_blank');
+    }
+    this.activeMenu.set(null);
   }
 
   private loadComments(): void {
